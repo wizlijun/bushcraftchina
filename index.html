@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China Bushcraft Community</title>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- 3D-FlipBook DFlip Lite - 直接使用unpkg来避免CORS问题 -->
+    <link rel="stylesheet" href="https://unpkg.com/3d-flipbook-dflip-lite@2.3.65/assets/css/dflip.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/3d-flipbook-dflip-lite@2.3.65/assets/css/themify-icons.min.css">
+    <script src="https://unpkg.com/3d-flipbook-dflip-lite@2.3.65/assets/js/dflip.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: centre;
+            padding: 20px;
+        }
+        #flipbook-container {
+            width: 100%;
+            height: 80vh;
+        }
+        .error-message {
+            display: none;
+            color: red;
+            background-color: #ffeeee;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            max-width: 90%;
+        }
+        #loading-message {
+            margin: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .fallback-container {
+            display: none;
+            width: 100%;
+            height: 80vh;
+            text-align: center;
+        }
+        .download-button {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #4285F4;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .download-button:hover {
+            background-color: #3367D6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>China Bushcraft Community</h1>
+        </div>
+        
+        <div class="error-message" id="error-box"></div>
+        <div id="loading-message">Loading PDF viewer...</div>
+        
+        <!-- 3D-FlipBook DFlip Lite container -->
+        <div id="flipbook-container" class="_df_book" source="/issue/bushcraftchinaissue1.pdf" id="df_book1"></div>
+        
+        <!-- Fallback option if DFlip fails to load -->
+        <div class="fallback-container" id="fallback-container">
+            <p>The interactive PDF viewer could not be loaded.</p>
+            <a href="/issue/bushcraftchinaissue1.pdf" download class="download-button">Download PDF</a>
+            <p>or</p>
+            <object data="/issue/bushcraftchinaissue1.pdf" type="application/pdf" width="90%" height="80%">
+                <p>Your browser doesn't support embedded PDF viewing. Please download the PDF to view it.</p>
+            </object>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // 检查jQuery是否加载成功
+            if (typeof jQuery === 'undefined') {
+                showError('Failed to load jQuery. Please refresh the page or try a different browser.');
+                showFallback();
+                return;
+            }
+            
+            // 显示错误信息
+            function showError(message) {
+                console.error(message);
+                $('#error-box').text(message).show();
+                $('#loading-message').hide();
+            }
+            
+            // 显示备用选项
+            function showFallback() {
+                $('#flipbook-container').hide();
+                $('#fallback-container').show();
+            }
+            
+            // 使用HTML5 Fetch API检查PDF是否存在
+            fetch('/issue/bushcraftchinaissue1.pdf', { method: 'HEAD' })
+                .then(function(response) {
+                    if (response.ok) {
+                        console.log('PDF file found, loading viewer...');
+                        initDFlip();
+                    } else {
+                        showError('PDF file not found or cannot be accessed. Please check the file path.');
+                        showFallback();
+                    }
+                })
+                .catch(function(error) {
+                    showError('Error checking PDF file: ' + error.message);
+                    showFallback();
+                });
+            
+            // 初始化3D-FlipBook DFlip Lite
+            function initDFlip() {
+                // 等待一些时间确保DFlip库完全加载
+                setTimeout(function() {
+                    // 检查DFlip是否加载
+                    if (typeof DFLIP === 'undefined') {
+                        showError('Failed to load PDF viewer. This may be due to security restrictions in localhost environment.');
+                        showFallback();
+                        return;
+                    }
+                    
+                    try {
+                        // 使用HTML属性初始化方式，这种方式在本地环境更可靠
+                        DFLIP.convertAttr();
+                        
+                        // 使用JavaScript API也初始化一次，以防属性方式失败
+                        var flipBook = $('#flipbook-container').flipBook({
+                            pdfUrl: '/issue/bushcraftchinaissue1.pdf',
+                            webgl: true,
+                            backgroundColor: '#f5f5f5',
+                            height: '80vh',
+                            transparent: false
+                        });
+                        
+                        $('#loading-message').hide();
+                        console.log('DFlip initialized successfully');
+                    } catch (e) {
+                        console.error('Error initializing DFlip:', e);
+                        showError('Error initializing PDF viewer: ' + e.message);
+                        showFallback();
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
