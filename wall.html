@@ -39,6 +39,13 @@
             align-content: start;
         }
         
+        /* 媒体查询，在小屏幕设备上一行显示3个 */
+        @media (max-width: 768px) {
+            .photo-wall {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
         .photo-item {
             width: 100%;
             aspect-ratio: 1 / 1;
@@ -100,36 +107,36 @@
         document.addEventListener('DOMContentLoaded', function() {
             // All PNG image filenames
             const images = [
-                'ben.png',
-                'zhangzy.png',
-                'soulsiblia.png',
-                'outdoorfatherAdirondackMurray.png',
-                'BadenPowell.png',
-                'campingfatherThomasHiram.png',
-                'larsfalt.png', 
-                'larsMonsennorway.png', 
-                'cimber.png', 
-                'herminway.png', 
-                'kephart.png', 
-                'nessmuk.png', 
-                'daliben.png', 
-                'halffman.png', 
-                'dog.png', 
-                'nicole.png', 
-                'axeking.png', 
-                'willord.png', 
-                'lily.png', 
-                'australiaboy.png', 
-                'dave.png', 
-                'canadaLesStroud.png', 
-                'saswiseman.png', 
-                'xiaolizi.png', 
-                'mors.png', 
-                'maoyige.png', 
-                'jacklore.png', 
-                'edstaford.png', 
-                'bear.png', 
-                'ray.png'
+                'Ben Orford.png',
+                'Ayal Komod.png',
+                'Soul of Siberia.png',
+                'Adirondack Murray.png',
+                'Baden Powell.png',
+                'Thomas Hiram Holding.png',
+                'Lars Fält.png',
+                'Lars Monsen.png',
+                'Cimber Tom.png',
+                'Ernest Hemingway.png',
+                'Horace Kephart .png',
+                'Nessmuk.png',
+                'Ben Abbott.png',
+                'Liam Hoffman.png',
+                'Doug Marcaida.png',
+                'Nicole.png',
+                'Thoren Bradley.png',
+                'Will Lord.png',
+                'Survival Lilly.png',
+                'John Plant.png',
+                'Dave Canterbury.png',
+                'Les Stroud.png',
+                'John Wiseman.png',
+                'The Revenant.png',
+                'Mors Kochanski.png',
+                'Rune Bertram.png',
+                'Jacklore.png',
+                'ED Stanford.png',
+                'Bear Grylls.png',
+                'Ray Mears.png'
             ];
             
             // Randomly shuffle images
