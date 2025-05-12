@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hall of Fame</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        
+        .photo-wall {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            width: 100%;
+            align-content: start;
+        }
+        
+        .photo-item {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hall of Fame</h1>
+    <div class="photo-wall" id="photoWall"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // All PNG image filenames
+            const images = [
+                'ben.png',
+                'zhangzy.png',
+                'soulsiblia.png',
+                'outdoorfatherAdirondackMurray.png',
+                'BadenPowell.png',
+                'campingfatherThomasHiram.png',
+                'larsfalt.png', 
+                'larsMonsennorway.png', 
+                'cimber.png', 
+                'herminway.png', 
+                'kephart.png', 
+                'nessmuk.png', 
+                'daliben.png', 
+                'halffman.png', 
+                'dog.png', 
+                'nicole.png', 
+                'axeking.png', 
+                'willord.png', 
+                'lily.png', 
+                'australiaboy.png', 
+                'dave.png', 
+                'canadaLesStroud.png', 
+                'saswiseman.png', 
+                'xiaolizi.png', 
+                'mors.png', 
+                'maoyige.png', 
+                'jacklore.png', 
+                'edstaford.png', 
+                'bear.png', 
+                'ray.png'
+            ];
+            
+            // Randomly shuffle images
+            const shuffledImages = [...images].sort(() => Math.random() - 0.5);
+            
+            // Display all images in the grid
+            const photoWall = document.getElementById('photoWall');
+            shuffledImages.forEach(imageName => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                
+                const img = document.createElement('img');
+                img.src = 'wall/' + imageName;
+                img.alt = imageName.replace('.png', '');
+                
+                photoItem.appendChild(img);
+                photoWall.appendChild(photoItem);
+            });
+        });
+    </script>
+</body>
+</html>
