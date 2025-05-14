@@ -97,6 +97,16 @@
             font-size: 14px;
             word-break: break-word;
         }
+        
+        .flip-card-back a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dotted white;
+        }
+        
+        .flip-card-back a:hover {
+            color: #ccc;
+        }
     </style>
 </head>
 <body>
@@ -105,52 +115,59 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // All PNG image filenames
-            const images = [
-                'Ben Orford.png',
-                'John Wiseman.png',
-                'Lars Monsen.png',
-                'Ben Abbott.png',
-                'Adirondack Murray.png',
-                'Cat Bigney.png',
-                'Thomas Hiram Holding.png',
-                'Les Stroud.png',
-                'Thoren Bradley.png',
-                'Ness Knight.png',
-                'Ayal Komod.png',
-                'Rune Bertram.png',
-                'Doug Marcaida.png',
-                'Josh James.png',
-                'The Revenant.png',
-                'ED Staford.png',
-                'Survival Lilly.png',
-                'Jacklore.png',
-                'Hakim Isler.png',
-                'Liam Hoffman.png',
-                'Will Lord.png',
-                'Nessmuk.png',
-                'Cimber Tom.png',
-                'Wu Xinlei.png',
-                'John Plant.png',
-                'Baden Powell.png',
-                'Matt Graham.png',
-                'Soul of Siberia.png',
-                'Ernest Hemingway.png',
-                'Mors Kochanski.png',
-                'Lars Fält.png',
-                'Horace Kephart .png',
-                'Dave Canterbury.png',
-                'Bear Grylls.png',
-                'Ray Mears.png',
-                'Nicole.png'
+            // All PNG image filenames and their corresponding URLs
+            const people = [
+                { image: 'Ben Orford.png', url: 'knifemaster.html#ben-orford' },
+                { image: 'Ben Abbott.png', url: 'knifemaster.html#ben-abbott' },
+                { image: 'Doug Marcaida.png', url: 'knifemaster.html#doug-marcaida' },
+                { image: 'Jacklore.png', url: 'knifemaster.html#jacklore' },
+                { image: 'Liam Hoffman.png', url: 'knifemaster.html#liam-hoffman' },
+
+                { image: 'John Wiseman.png', url: 'bushcraftmaster.html#john-wiseman' },
+                { image: 'Adirondack Murray.png', url: 'bushcraftmaster.html#adirondack-murray' },
+                { image: 'Thomas Hiram Holding.png', url: 'bushcraftmaster.html#thomas-hiram-holding' },
+                { image: 'Nessmuk.png', url: 'bushcraftmaster.html#nessmuk' },
+                { image: 'Baden Powell.png', url: 'bushcraftmaster.html#baden-powell' },
+                { image: 'Mors Kochanski.png', url: 'bushcraftmaster.html#mors-kochanski' },
+                { image: 'Lars Fält.png', url: 'bushcraftmaster.html#lars-falt' },
+                { image: 'Horace Kephart .png', url: 'bushcraftmaster.html#horace-kephart' },
+                { image: 'Dave Canterbury.png', url: 'bushcraftmaster.html#dave-canterbury' },
+                { image: 'Ray Mears.png', url: 'bushcraftmaster.html#ray-mears' },
+
+                { image: 'Lars Monsen.png', url: 'survivalmaster.html#lars-monsen' },
+                { image: 'Cat Bigney.png', url: 'survivalmaster.html#cat-bigney' },
+                { image: 'Les Stroud.png', url: 'survivalmaster.html#les-stroud' },
+                { image: 'Ness Knight.png', url: 'survivalmaster.html#ness-knight' },
+                { image: 'Josh James.png', url: 'survivalmaster.html#josh-james' }, 
+                { image: 'ED Staford.png', url: 'survivalmaster.html#ed-staford' },
+                { image: 'Survival Lilly.png', url: 'survivalmaster.html#survival-lilly' },
+                { image: 'Hakim Isler.png', url: 'survivalmaster.html#hakim-isler' },
+                { image: 'Wu Xinlei.png', url: 'survivalmaster.html#wu-xinlei' },
+                { image: 'Matt Graham.png', url: 'survivalmaster.html#matt-graham' },
+                { image: 'Bear Grylls.png', url: 'survivalmaster.html#bear-grylls' },
+
+
+                { image: 'Thoren Bradley.png', url: 'influencer.html#thoren-bradley' },
+                { image: 'Ayal Komod.png', url: 'influencer.html#ayal-komod' },
+                { image: 'Rune Bertram.png', url: 'influencer.html#rune-bertram' },
+                { image: 'The Revenant.png', url: 'influencer.html#the-revenant' },
+                { image: 'Will Lord.png', url: 'influencer.html#will-lord' },
+                { image: 'Cimber Tom.png', url: 'influencer.html#cimber-tom' },
+                { image: 'John Plant.png', url: 'influencer.html#john-plant' },
+                { image: 'Ernest Hemingway.png', url: 'influencer.html#ernest-hemingway' },
+                { image: 'Nicole.png', url: 'influencer.html#nicole' },
+
+
+                { image: 'Soul of Siberia.png', url: 'greenwoodmaster.html#soul-of-siberia' },
+                
             ];
             
-            // Randomly shuffle images
-            const shuffledImages = [...images].sort(() => Math.random() - 0.5);
+            // Randomly shuffle people
+            const shuffledPeople = [...people].sort(() => Math.random() - 0.5);
             
             // Display all images in the grid
             const photoWall = document.getElementById('photoWall');
-            shuffledImages.forEach(imageName => {
+            shuffledPeople.forEach(person => {
                 const photoItem = document.createElement('div');
                 photoItem.className = 'photo-item';
                 
@@ -163,15 +180,21 @@
                 frontFace.className = 'flip-card-front';
                 
                 const img = document.createElement('img');
-                img.src = 'halloffame/' + imageName;
-                img.alt = imageName.replace('.png', '');
+                img.src = 'halloffame/' + person.image;
+                img.alt = person.image.replace('.png', '');
                 
                 frontFace.appendChild(img);
                 
-                // Create back face with filename without extension
+                // Create back face with name as a link
                 const backFace = document.createElement('div');
                 backFace.className = 'flip-card-back';
-                backFace.textContent = imageName.replace('.png', '');
+                
+                const nameLink = document.createElement('a');
+                nameLink.href = person.url;
+                nameLink.textContent = person.image.replace('.png', '');
+                nameLink.target = '_blank'; // Open in new tab
+                
+                backFace.appendChild(nameLink);
                 
                 // Add both faces to flip card
                 flipCard.appendChild(frontFace);
@@ -181,8 +204,14 @@
                 photoItem.appendChild(flipCard);
                 
                 // Add click event for flipping
-                photoItem.addEventListener('click', function() {
-                    this.classList.toggle('flipped');
+                photoItem.addEventListener('click', function(e) {
+                    // If clicking on the link, don't toggle the flip
+                    if (e.target.tagName === 'A') {
+                        // Link click behavior is handled by the browser
+                        e.stopPropagation();
+                    } else {
+                        this.classList.toggle('flipped');
+                    }
                 });
                 
                 // Add to wall
